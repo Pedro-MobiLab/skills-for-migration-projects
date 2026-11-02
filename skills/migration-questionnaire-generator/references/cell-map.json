@@ -1,0 +1,74 @@
+{
+  "_comment": "Rows are found by matching the anchor text (case-insensitive substring) in column D of the questionnaire sheet. Edit the anchors, not row numbers, when the template changes.",
+  "sheet": "General",
+  "validator_sheet": "Data Validator",
+  "question_column": "D",
+  "response_column": "G",
+  "server_columns": ["G", "H", "I", "J", "K"],
+  "date_cell": "C13",
+  "protected_cells": ["C11", "C12"],
+  "workload_fields": {
+    "workload": "What is the Workload / Application Name",
+    "wlo": "Who is the Workload Owner",
+    "tech": "Who is the Technical Workload Owner",
+    "tester": "responsible for executing a workload test",
+    "updater": "responsible for updating the application after the migration"
+  },
+  "server_fields": {
+    "name":       {"anchor": "Which servers are used by the workload"},
+    "ot":         {"anchor": "Operational Technology", "list": "Yes / No"},
+    "type":       {"anchor": "What is the server type", "list": "Server Type"},
+    "env":        {"anchor": "What type of environment", "list": "Environment"},
+    "crit":       {"anchor": "Business Criticality does the server have", "list": "Business Criticality"},
+    "data":       {"anchor": "data sensitivity", "list": "Data Sensitivity"},
+    "ha":         {"anchor": "Should the server be highly available", "list": "Yes / No"},
+    "physical":   {"anchor": "physical devices connected to the server", "list": "Yes / No"},
+    "appliance":  {"anchor": "vendor-specific) appliance", "list": "Yes / No"},
+    "modernize":  {"anchor": "plans of modernizing", "list": "Yes / No"},
+    "facing":     {"anchor": "connect to the application from the internet or internal", "list": "Application Accessibility"},
+    "hostdb":     {"anchor": "host any local database instances", "list": "Yes / No"},
+    "sqlcompat":  {"anchor": "MS SQL Server Compatibility Limitation", "list": "Yes / No"},
+    "access":     {"anchor": "existing AD groups"}
+  },
+  "notes_anchor": "Additional Notes",
+  "interview1_catalogue": {
+    "_comment": "Maps template rows to the M&M Interview 1 question catalogue (see method-primer.md section 5).",
+    "APPROVE": {
+      "SERVER_LIST": "Which servers are used by the workload",
+      "DEPENDENCIES": "Dependent Workloads or servers",
+      "ENVIRONMENT": "What type of environment",
+      "LOCAL_DATABASE": "host any local database instances",
+      "FILESHARE_CONNECTED": "connected to NetApp or any Mapped Drive",
+      "OPERATING_SYSTEM": "vendor-specific) appliance",
+      "PHYSICAL_DEVICES": "physical devices connected to the server"
+    },
+    "ASK": {
+      "USE_CASE": "What is the Workload / Application Name",
+      "USER_COUNT": "What is the Workload / Application Name",
+      "DOWNTIME_TOLERANCE": "Is the suggested date ideal for Migration",
+      "BUSINESS_IMPACT": "rollback on the same day",
+      "MODERNIZATION_PLANS": "plans of modernizing",
+      "REPLACEMENT_PLANNED": "plans of modernizing",
+      "WORKLOAD_OWNER": "Who is the Workload Owner",
+      "TEST_REPRESENTATIVE": "responsible for executing a workload test",
+      "POST_MIGRATION_CHANGES": "responsible for updating the application after the migration",
+      "OWNER_ABSENCE": "vacations/absences planned"
+    },
+    "MARK": {
+      "BUSINESS_CRITICALITY": "Business Criticality does the server have",
+      "CONFIDENTIALITY": "data sensitivity",
+      "REGULATORY_SCOPE": "regulatory requirements"
+    },
+    "TECHNICAL_TRACK": {
+      "COMMUNICATION_PORTS": "What communication ports are in use",
+      "TRAFFIC_ENDPOINTS": "source/destination addresses",
+      "ADDRESS_DEPENDENCY": "static IP address used in other applications",
+      "DNS_ALIAS": "internal DNS alias record",
+      "OUTBOUND_INTERNET": "internet outbound connectivity",
+      "THIRD_PARTY_WHITELIST": "Public IP needs to be whitelisted",
+      "WEB_PUBLIC_ADDRESS": "URL and Public IP address",
+      "WEB_DOMAIN_AND_PATH": "domain name of the website",
+      "LICENSE_DONGLE": "MAC Address or Hardware Dongle"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "title": "Migration & Modernization: Wave Planning",
+  "subtitle": "Cutover schedule · CW29–CW30 (13–25 July 2026)",
+  "_template": "assets/cover-template.pptx",
+  "_keep_cover": true,
+  "cover": {
+    "title": "Contoso Cloud Migration",
+    "subtitle": "Wave Planning – CW29 & CW30",
+    "date": "13 – 25 July 2026"
+  },
+  "client_name": "Contoso",
+  "client_logo": "",
+  "footnotes": [
+    "* SRVERP505 slot moved from CW28 – waiting for the downtime window to be agreed by email (Gate 1 open)."
+  ],
+  "columns": [
+    {
+      "header": "CW 29",
+      "meta": "14–17 July · 5 units",
+      "units": [
+        { "date": "14 Jul", "unit": "SRVERP505", "unit_type": "server", "workload": "ERP Finance",
+          "owner": "Jane Doe", "status": "planned", "scenario": "Rehost", "group": "ERP-PRD", "note": "*" },
+        { "date": "15 Jul", "unit": "SRVPRT103", "unit_type": "server", "workload": "Print Server",
+          "owner": "John Smith +1", "status": "scheduled", "scenario": "OS Modernization", "group": "Print-PRD" },
+        { "date": "16 Jul", "unit": "SQLAG081\\INST01", "unit_type": "instance", "workload": "Shared SQL AG Cluster",
+          "owner": "Alex Miller", "status": "scheduled", "scenario": "DB → Azure SQL MI", "group": "SharedSQL-PRD" },
+        { "date": "16 Jul", "unit": "SQLAG081\\INST02", "unit_type": "instance", "workload": "Shared SQL AG Cluster",
+          "owner": "Alex Miller", "status": "scheduled", "scenario": "DB → Azure SQL MI", "group": "SharedSQL-PRD" },
+        { "date": "17 Jul", "unit": "\\\\fs01\\projects", "unit_type": "share", "workload": "Engineering Projects",
+          "owner": "Maria Garcia +2", "status": "scheduled", "scenario": "Share → Azure Files", "group": "EngShare-PRD" }
+      ]
+    },
+    {
+      "header": "CW 30",
+      "meta": "20–24 July · 5 units",
+      "units": [
+        { "date": "20 Jul", "unit": "SRVAUD013", "unit_type": "server", "workload": "Audit Analytics",
+          "owner": "Chris Lee +3", "status": "scheduled", "scenario": "Rehost", "group": "Audit-PRD" },
+        { "date": "20 Jul", "unit": "SRVAUD012", "unit_type": "server", "workload": "Audit Analytics",
+          "owner": "Chris Lee +3", "status": "scheduled", "scenario": "Rehost", "group": "Audit-PRD" },
+        { "date": "21 Jul", "unit": "Intranet Portal", "unit_type": "application", "workload": "Intranet Portal",
+          "owner": "Sam Taylor", "status": "planned", "scenario": "App Runtime → App Service", "group": "Intranet-QAS" },
+        { "date": "22 Jul", "unit": "SRVIMG111", "unit_type": "server", "workload": "Screen Imaging",
+          "owner": null, "status": "planned", "missing": true },
+        { "date": "24 Jul", "unit": "HR Recruiting", "unit_type": "application", "workload": "HR Recruiting",
+          "owner": "Pat Kim +1", "status": "scheduled", "scenario": "Repurchase · SaaS", "group": "Recruiting-PRD" }
+      ]
+    }
+  ]
+}

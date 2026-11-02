@@ -1,0 +1,33 @@
+[
+  {
+    "workload": "Order Management",
+    "wlo": "WLO: Jane Doe - jane.doe@contoso.example\nData owner: same as WLO (to confirm)",
+    "tech": "Full Name: Alex Miller\nEmail Address: alex.miller@contoso.example\nApproval to contact vendor by MobiLab: Yes / No",
+    "notes_header": "Workload: Order Management  |  Prepared by MA: <name>  |  Date: 02.11.2026  |  Wave 4  |  Lifecycle: 04 Interview 1 Scheduled",
+    "servers": [
+      {
+        "name": "SRVORD01",
+        "type": "Application Server",
+        "env": "PRD",
+        "crit": "Somewhat Critical",
+        "data": "Confidential",
+        "facing": "Internal",
+        "note": "OS Windows Server 2016 | On-prem IP 10.1.2.10 | Backup Policy bkpol-vm-medium-prd. Grouping: Order Mgmt. Goal signal (proposal only): OS end of support -> OS Modernization candidate."
+      },
+      {
+        "name": "SQLPRD01",
+        "type": "Database Server",
+        "env": "PRD",
+        "crit": "Somewhat Critical",
+        "data": "Confidential",
+        "facing": "Internal",
+        "hostdb": "Yes",
+        "sqlcompat": "Maybe",
+        "note": "OS Windows Server 2016 | SQL Server 2014 instance ORDERS | Backup Policy bkpol-vm-medium-prd, SQL bkpol-sql-medium-prd. Goal signal (proposal only): SQL Server 2014 out of support -> Database Modernization candidate (Azure SQL MI)."
+      }
+    ],
+    "notes_extra": [
+      "Goal signals are proposals for the System Engineer (step 07 Goal Proposed) - not decisions. Confirm modernization plans with the Workload Owner."
+    ]
+  }
+]

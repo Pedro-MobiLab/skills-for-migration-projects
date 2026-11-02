@@ -1,0 +1,154 @@
+# ---------------------------------------------------------------------------
+# Engagement profile — one file per customer engagement.
+#
+# Copy this file to profiles/<client-slug>.engagement-profile.yaml, fill it in once
+# at project start, and attach it (or point to it) whenever you run one of the
+# skills. Every customer-specific value lives HERE — never in the skills.
+#
+# Keys a skill needs but cannot find: the skill asks the user once, then suggests
+# adding the answer to the profile. Keys marked (optional) have sensible defaults.
+#
+# DO NOT commit real customer profiles to a public repo. Keep them in the
+# engagement's SharePoint/Confluence space or a private repo.
+# ---------------------------------------------------------------------------
+
+client:
+  name: "Contoso"                 # Display name, used in titles and copy
+  slug: "contoso"                 # lowercase, used in file names
+  programme: "Contoso Cloud Migration"   # cover-slide title / document headers
+  logo: ""                        # (optional) path to a PNG for slide footers
+  language: "en"                  # client-facing deliverables language
+
+cloud:
+  provider: "Azure"
+  target_region: "Germany West Central"
+  target_timezone: "CET/CEST"
+
+# --- Method settings (see shared/method-primer.md) -------------------------
+method:
+  effort_threshold: "medium"      # units above this are rehosted now, target recorded
+  scenarios_in_scope:             # remove what the contract does not cover
+    - OS Modernization
+    - Fileserver Modernization
+    - Database Modernization
+    - SaaS Modernization
+    - Application Runtime Modernization
+    - VDI Modernization
+  r_factors: [Rehost, Relocate, Replatform, Rebuild, Repurchase, Retire, Retain]
+
+# --- Foundation value lists (the customer's controlled vocabularies) ---------
+foundation:
+  environments: [PRD, UAT, QAS, INT, TST, DEV, Stage]
+  environment_labels:             # (optional) long names for documents
+    PRD: Production
+    UAT: User Acceptance Testing
+    QAS: Quality Assurance
+    INT: Integration
+    TST: Test
+    DEV: Development
+  business_criticality:           # ordered, highest first; phrase = impact text
+    - label: "Most Critical"
+      impact: "Problems in core processes (e.g. production, logistics, sales) resulting in significant financial losses or delivery delays"
+    - label: "Somewhat Critical"
+      impact: "Impacts important business processes with noticeable operational disruption"
+    - label: "Less Critical"
+      impact: "Impacts individual teams or business processes with temporary loss of productivity"
+    - label: "Not Critical"
+      impact: "Has little or no impact on business operations"
+  data_classification: [Public, Internal, Confidential, Strictly Confidential]
+  support_times:
+    - "8x5 - Support only during client business hours"
+    - "24x5 - Full support on working days"
+    - "24x7 - Full support"
+    - "Other"
+  regulatory_scope: [None, GDPR, GxP, ISO 27001, ITAR, Other]
+
+# --- Naming conventions ------------------------------------------------------
+naming:
+  application_service: "{workload} - {country} - {env}"     # e.g. "Spira - DE - PRD"
+  jira_card_title: "{dd_mm} - {workload} - {country} - {env} - {unit}{suffix}"
+  questionnaire_file: "{year}_MobiLab_universal_migration_interview_questionaire_{client_slug}_{app_slug}.xlsx"
+  ops_manual_file: "{yyyymmdd}_MobiLab_{client_slug}_{workload_slug}_{unit}_operations_manual.xlsx"
+  unit_page_title: "{unit}"                                  # Confluence page per unit
+  ad_domain: ""                   # (optional) e.g. "CORP (corp.example)"; only written when evidenced
+
+# --- Atlassian -----------------------------------------------------------------
+atlassian:
+  cloud_id: ""                    # from getAccessibleAtlassianResources
+  site: "mobilab.atlassian.net"
+  confluence_space: ""            # space key holding the per-unit pages
+  # Template page IDs per page type (see migration-confluence-pages/references/page-types.md).
+  # Leave a type empty if the engagement has no template yet — the skill then offers
+  # the generic skeleton from page-skeletons.md.
+  page_templates:
+    server_rehost_windows: ""
+    server_rehost_linux: ""
+    database_joint_effort: ""
+    database_modernization: ""
+    fileshare_modernization: ""
+    os_modernization: ""
+    saas_modernization: ""
+    app_runtime_modernization: ""
+    vdi_modernization: ""
+  unit_page_fields:               # labels in the per-unit page's details table
+    workload: "Workload / Application Name"
+    owner: "Application / Workload Owner Name & Email"
+  architecture_pages:             # cross-reference pages for the operations manual
+    backup_management: ""         # page id
+    update_management: ""         # page id
+  jira:
+    project_key: ""
+    issue_type: "Story"
+    epic_key: ""
+    priority: "P3"
+    template_issue_key: ""        # card whose description is copied
+    labels:
+      migration: [Migration, migration]
+      firewall: [Firewall]
+      modernization: [Modernization]
+
+# --- Microsoft 365 / SharePoint ----------------------------------------------
+sharepoint:
+  site: ""                        # e.g. "sites/Contoso"
+  questionnaire_folder: ""        # where filled questionnaires live
+  firewall_requests_folder: ""
+  firewall_request_file: "{yyyymmdd}_{client_slug}_firewall_request_{workload_slug}.xlsx"
+
+# --- Inventory / handover workbook -------------------------------------------
+# Columns are matched by HEADER TEXT (case-insensitive, substring), never by
+# position, because inventories grow. Adjust the header strings to the client file.
+inventory:
+  file_pattern: "*migration_inventory*.xlsx"
+  sheet: "Lift & Shift - Data Migration"
+  handover_sheet: "Handover"
+  columns:
+    unit_name: "Server name"
+    ip: "On-prem IP"
+    workload: "Workload Name"
+    unit_type: "Server Type"
+    environment: "Environment"
+    os: "OS Version"
+    business_criticality: "Business Criticality"
+    data_classification: "Data Criticality"
+    backup_policy: "Backup Policy"
+    sql_backup_policy: "SQL Backup Policy"
+    workload_owner: "Workload Owner"
+    technical_owner: "Technical Owner"
+    target_region: "Target Azure Region"
+    target_subscription: "Target Subscription"
+    sql_version: "SQL"
+    grouping: "Grouping Proposal"
+    maintenance_window: "Maintenance Window"
+    goal: "Goal"                  # (optional) if the inventory already carries the Goal
+    r_factor: "R-Factor"          # (optional)
+    scenario: "Scenario"          # (optional)
+
+# --- Defaults --------------------------------------------------------------
+defaults:
+  dba: ""                         # "Name - email"; used when the questionnaire names none
+  admin_groups: []                # pre-filled into the questionnaire access row, e.g. ["CORP\\Server-Admins"]
+  standard_processes:             # phrases used in the operations manual
+    change: "the standard {client} change process"
+    backup: "Backups follow the standard {client} process"
+    idm: "the standard {client} IDM process"
+  planned_marker: "-?"            # wave-planning source marker for unconfirmed slots

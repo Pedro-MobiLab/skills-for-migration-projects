@@ -1,0 +1,75 @@
+{
+  "title": "Operations Manual - Order Management - DE - PRD",
+  "subtitle": "Contoso Cloud Migration - Database Modernization (Replatform) - SQLPRD01\\ORDERS to Azure SQL Managed Instance",
+  "workload": "Order Management",
+  "client_slug": "contoso",
+  "units": [
+    {
+      "tab": "sqlmi-orders-prd",
+      "rows": {
+        "1": {"value": "Order Management - DE - PRD", "status": "Done"},
+        "2": {"value": "Application Description:\nOrder intake and fulfilment database for the Order Management application.\n\nArchitecture: 2-tier - application server SRVORD01 (rehosted) and database ORDERS.\nDependencies: ERP Finance (nightly export), Shared file share \\\\fs01\\orders.\n\nModernized to Azure (Germany West Central) - Goal: Modernize (Replatform - Database Modernization). Instance SQLPRD01\\ORDERS (SQL Server 2014) moved to Azure SQL Managed Instance via the standard interview process.", "status": "Done"},
+        "3": {"value": "PRD (Production)", "status": "Done"},
+        "4": {"value": "Somewhat Critical - Impacts important business processes with noticeable operational disruption", "status": "Done"},
+        "5": {"value": "Confidential", "status": "Done"},
+        "6": {"value": "Workload Owner:\nJane Doe - jane.doe@contoso.example\n\nTechnical Workload Owner:\nAlex Miller - alex.miller@contoso.example", "status": "Done"},
+        "7": {"value": "Testing Representative:\nSam Taylor - sam.taylor@contoso.example", "status": "In Progress", "open": ["Support Group name and contact", "Escalation path (L1 - L2 - L3)"]},
+        "8": {"value": "8x5 - Support only during client business hours", "status": "In Progress", "open": ["Support times to be confirmed by the workload owner"]},
+        "9": {"value": "Workload owner to confirm whether the service follows the standard Contoso change process.", "status": "To-Do", "open": ["Change process confirmation"]},
+        "10": {"value": "Azure Monitor alerts and SQL Insights configured for the managed instance.\nWorkload owner to add any monitoring outliers (security, data, other) if required.", "status": "In Progress", "open": ["Monitoring outliers, if any"]},
+        "11": {"value": "Availability target per criticality: 99.86%\nService tier: General Purpose, 8 vCores\nStorage: 512 GB", "status": "In Progress", "open": ["Application-level KPIs"]},
+        "12": {"value": "Consumers:\nSRVORD01 (Order Management application server)\n\nInterfaces:\nERP Finance - nightly export job\n\nAuthentication:\nSQL login svc_orders (migration to Microsoft Entra authentication planned)", "status": "Done"},
+        "13": {"value": "Platform maintenance: Azure-managed, custom maintenance window Saturday 22:00-06:00 (CET/CEST)\nMaintenance window (per inventory): 02:00 SU (CET/CEST)", "status": "Done"},
+        "14": {"value": "RTO: < 12 hours | RPO: 5 minutes (point-in-time restore, pending Contoso sign-off)", "status": "In Progress", "open": ["RTO / RPO values pending Contoso sign-off"]},
+        "15": {"value": "PRD - SQLPRD01\\ORDERS - modernized to Azure SQL Managed Instance 21/07/2026", "status": "Done"},
+        "16": {"value": "Microsoft Entra ID (Entra admin group configured on the managed instance)\nActive Directory groups for application users unchanged", "status": "Done"},
+        "17": {"value": "No service-specific deviations from the standard Contoso IDM process were found during the migration process. Please update if required.", "status": "Done"},
+        "18": {"value": "Application access: internal only, via SRVORD01\nDatabase administration: SSMS over private endpoint, Entra authentication with MFA", "status": "Done"},
+        "19": {"value": "svc_orders - SQL login used by the application", "status": "In Progress", "open": ["Permissions and rotation policy for svc_orders"]},
+        "20": {"value": "1. High-level architecture:\n2-tier application; database on Azure SQL Managed Instance\n\n2. Main components / interactions:\nApplication server SRVORD01 connects to the ORDERS database over a private endpoint\n\n3. Architecture diagram:\nTo be completed by workload owner\n\n4. Key technology stacks (runtime, frameworks, databases):\nAzure SQL Managed Instance (compatibility level 120)\n\n5. Dependencies on external systems / third-party services:\nNone identified during migration\n\n6. File shares / storage / messaging systems:\n\\\\fs01\\orders (used by the application tier)\n\n7. Internet connectivity (inbound/outbound):\nNone\n\n8. Privileged Identity Management (PIM) used:\nTo be completed by workload owner\n\nThe workload owner must fill any gaps and keep the Operations Handbook up to date.", "status": "In Progress", "open": ["Architecture diagram", "PIM usage"]},
+        "21": {"value": "Private endpoint: 10.20.4.15 (sqlmi-orders-prd.privatelink.database.windows.net)\nPort: 1433 (redirect 11000-11999 within the VNet)\nPublic endpoint: disabled\n\nFirewall Rules:\nSRVORD01 - SQL MI subnet - TCP 1433\nERP Finance export host - SQL MI subnet - TCP 1433", "status": "Done"},
+        "22": {"value": "Backups follow the standard Contoso process\nAutomated backups: point-in-time restore, 14 days retention\nLong-term retention: weekly, 12 weeks", "status": "In Progress", "open": ["LTR policy to be confirmed by Contoso"]},
+        "23": {"value": "Patching: platform-managed by Azure (no OS patching required)\nMaintenance window (per inventory): 02:00 SU (CET/CEST)", "status": "Done"},
+        "24": {"value": "Workload owner to fill it out", "status": "To-Do", "open": ["Known problems, if any"]}
+      }
+    }
+  ],
+  "handover_summary": {
+    "title": "Handover Summary - Order Management - DE - PRD",
+    "columns": ["SQLPRD01\\ORDERS"],
+    "sections": [
+      {"title": "Unit Identity", "fields": [
+        ["Unit (before)", ["SQLPRD01\\ORDERS"]],
+        ["Workload Name", ["Order Management"]],
+        ["Goal / R-factor / Scenario", ["Modernize - Replatform - Database Modernization"]],
+        ["Target resource (after)", ["sqlmi-orders-prd / ORDERS"]],
+        ["Role", ["Order Management database (Somewhat Critical)"]]
+      ]},
+      {"title": "Network", "fields": [
+        ["Private endpoint IP", ["10.20.4.15"]],
+        ["Subscription", ["sub-contoso-prd-001"]],
+        ["Environment", ["PRD"]],
+        ["Resource Group", ["rg-orders-prd-gwc"]]
+      ]},
+      {"title": "Platform", "fields": [
+        ["Service / tier", ["Azure SQL Managed Instance - General Purpose, 8 vCores"]],
+        ["Location", ["Germany West Central"]],
+        ["High Availability", ["Zone-redundant: No"]],
+        ["Backup", ["PITR 14 days + LTR weekly 12 weeks (Somewhat Critical)"]]
+      ]},
+      {"title": "Post-Migration Readiness", "traffic_light": true, "fields": [
+        ["Backup configured", ["Configured"]],
+        ["Monitoring / alerts", ["Configured"]],
+        ["Patching", ["Platform-managed"]],
+        ["Network rules", ["Configured"]],
+        ["Entra authentication", ["Not Configured"]],
+        ["Hypercare / Steady State", ["Hypercare"]]
+      ]},
+      {"title": "Key Dates", "fields": [
+        ["Cutover date", ["21/07/2026"]],
+        ["Testing date", ["21/07/2026"]],
+        ["Handover date", ["04/08/2026"]]
+      ]}
+    ]
+  }
+}

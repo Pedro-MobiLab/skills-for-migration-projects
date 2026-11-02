@@ -1,0 +1,106 @@
+{
+  "_status": "DRAFT v0.1 — starter question sets for Interview 2 (Scenario Review, lifecycle step 10). The M&M method lists these sets as 'to build' (assignment D3); review with the Tech Lead before first client use and record changes here.",
+  "_answer_types": "text | yesno (Yes/No/Maybe) | list:<a>|<b>|<c> | date | person (Name - email)",
+  "_columns": "kind = approve (pre-filled from systems, owner confirms) or ask (only the interviewee can answer)",
+  "scenarios": {
+    "OS Modernization": {
+      "prefix": "OSM", "unit": "server", "r_factor": "Replatform",
+      "audience": "Technical Workload Owner; vendor where certified",
+      "questions": [
+        {"id": "OSM-01", "kind": "approve", "category": "Source", "question": "Current operating system and edition", "answer": "text", "help": "Pre-filled from inventory / Azure Migrate. Confirm edition and patch level."},
+        {"id": "OSM-02", "kind": "ask", "category": "Target", "question": "Target operating system version", "answer": "list:Windows Server 2022|Windows Server 2025|RHEL 9|Ubuntu 24.04 LTS|Other", "help": "Must be supported by the application vendor and the cloud platform."},
+        {"id": "OSM-03", "kind": "ask", "category": "Approach", "question": "Upgrade approach", "answer": "list:In-place upgrade|New VM and reinstall|Vendor appliance replacement", "help": "New VM and reinstall is preferred where installers and configuration are available."},
+        {"id": "OSM-04", "kind": "ask", "category": "Compatibility", "question": "Is the application certified by the vendor on the target OS?", "answer": "yesno", "help": "Attach the vendor statement or support matrix link."},
+        {"id": "OSM-05", "kind": "ask", "category": "Compatibility", "question": "Are installation media, licence keys and configuration exports available?", "answer": "yesno", "help": "Needed for the reinstall approach and for rollback."},
+        {"id": "OSM-06", "kind": "ask", "category": "Compatibility", "question": "Which runtime prerequisites does the application need (e.g. .NET, Java, VC++ runtimes)?", "answer": "text", "help": "List versions."},
+        {"id": "OSM-07", "kind": "ask", "category": "Network", "question": "Must the hostname and/or IP address stay the same?", "answer": "list:Hostname|IP address|Both|Neither", "help": "Drives DNS and firewall work."},
+        {"id": "OSM-08", "kind": "ask", "category": "Configuration", "question": "Local accounts, services, scheduled tasks or certificates to recreate", "answer": "text", "help": "Inventory them before cutover."},
+        {"id": "OSM-09", "kind": "ask", "category": "Testing", "question": "Test cases and acceptance criteria after the upgrade", "answer": "text", "help": "Owned by the test representative."},
+        {"id": "OSM-10", "kind": "ask", "category": "Rollback", "question": "Rollback expectation", "answer": "list:Restore snapshot|Keep old VM for N days|No rollback needed", "help": "State N days if relevant."}
+      ]
+    },
+    "Fileserver Modernization": {
+      "prefix": "FSM", "unit": "share", "r_factor": "Replatform",
+      "audience": "Technical Workload Owner; share permission owner",
+      "questions": [
+        {"id": "FSM-01", "kind": "approve", "category": "Source", "question": "Share path, size and file count", "answer": "text", "help": "Pre-filled from the file-server scan."},
+        {"id": "FSM-02", "kind": "ask", "category": "Target", "question": "Target service and tier", "answer": "list:Azure Files Standard|Azure Files Premium|Azure NetApp Files|Other", "help": "Premium / ANF for latency-sensitive or high-IOPS workloads."},
+        {"id": "FSM-03", "kind": "ask", "category": "Identity", "question": "Identity-based access method", "answer": "list:AD DS|Microsoft Entra Kerberos|Microsoft Entra Domain Services|Storage key (not recommended)", "help": "Keeps NTFS permissions working."},
+        {"id": "FSM-04", "kind": "ask", "category": "Ownership", "question": "Who owns share and NTFS permissions?", "answer": "person", "help": "Approves the ACL check after sync."},
+        {"id": "FSM-05", "kind": "approve", "category": "Consumers", "question": "Consumers of the share (applications, mapped drives, GPOs, scripts)", "answer": "text", "help": "Pre-filled from dependency data; owner confirms."},
+        {"id": "FSM-06", "kind": "ask", "category": "Path switch", "question": "How will clients be pointed to the new location?", "answer": "list:DFS namespace target swap|GPO drive mapping|Application configuration|DNS alias", "help": "DFS swap gives the least client impact."},
+        {"id": "FSM-07", "kind": "ask", "category": "Sync", "question": "Synchronisation method and acceptable final-delta window", "answer": "list:Azure File Sync|Robocopy|AzCopy|Storage Mover", "help": "Measure the delta before Gate 2."},
+        {"id": "FSM-08", "kind": "ask", "category": "Compatibility", "question": "Known issues with open files, file locking or long paths?", "answer": "yesno", "help": "Common with CAD, Office or database files on shares."},
+        {"id": "FSM-09", "kind": "ask", "category": "Protection", "question": "Required snapshot / backup retention", "answer": "text", "help": "Maps to Azure Backup for Files policy."},
+        {"id": "FSM-10", "kind": "ask", "category": "Network", "question": "Can all clients reach the private endpoint on SMB port 445?", "answer": "yesno", "help": "Check VPN / remote sites."}
+      ]
+    },
+    "Database Modernization": {
+      "prefix": "DBM", "unit": "instance", "r_factor": "Replatform",
+      "audience": "DBA (Technical Workload Owner if no DBA)",
+      "questions": [
+        {"id": "DBM-01", "kind": "approve", "category": "Source", "question": "Engine, version and edition", "answer": "text", "help": "Pre-filled from inventory / discovery."},
+        {"id": "DBM-02", "kind": "approve", "category": "Source", "question": "Databases, sizes and growth", "answer": "text", "help": "Pre-filled; DBA confirms."},
+        {"id": "DBM-03", "kind": "ask", "category": "Target", "question": "Target service and tier", "answer": "list:Azure SQL Managed Instance|Azure SQL Database|Azure Database for PostgreSQL flexible|Azure Database for MySQL flexible|SQL Server on Azure VM (fallback)", "help": "Proposed by the System Engineer from the assessment."},
+        {"id": "DBM-04", "kind": "ask", "category": "Compatibility", "question": "Features in use that may block PaaS (SQL Agent jobs, CLR, linked servers, cross-database queries, SSIS/SSRS, FILESTREAM, Service Broker)", "answer": "text", "help": "Attach the compatibility assessment result."},
+        {"id": "DBM-05", "kind": "ask", "category": "Compatibility", "question": "Does the application vendor support the target service?", "answer": "yesno", "help": "Attach the vendor statement."},
+        {"id": "DBM-06", "kind": "ask", "category": "Identity", "question": "Authentication model after migration", "answer": "list:SQL logins (as today)|Microsoft Entra authentication|Mixed", "help": "Entra authentication recommended."},
+        {"id": "DBM-07", "kind": "ask", "category": "Cutover", "question": "Who changes connection strings / aliases, and how many places?", "answer": "person", "help": "Gate 2 item."},
+        {"id": "DBM-08", "kind": "ask", "category": "Cutover", "question": "Migration method and tolerated downtime", "answer": "list:Online (DMS / log replay)|Offline (backup/restore)|Export/import", "help": "Rehearse and measure before Gate 2."},
+        {"id": "DBM-09", "kind": "ask", "category": "Resilience", "question": "High availability / disaster recovery requirement", "answer": "list:None beyond service default|Zone redundancy|Failover group (cross-region)", "help": "Align with Business Criticality."},
+        {"id": "DBM-10", "kind": "ask", "category": "Protection", "question": "Backup retention and long-term retention requirement", "answer": "text", "help": "PITR days + LTR weekly/monthly/yearly."},
+        {"id": "DBM-11", "kind": "ask", "category": "Operations", "question": "Preferred platform maintenance window", "answer": "text", "help": "Maps to the service maintenance configuration."}
+      ]
+    },
+    "SaaS Modernization": {
+      "prefix": "SAAS", "unit": "application", "r_factor": "Repurchase",
+      "audience": "Business Workload Owner, procurement, vendor",
+      "questions": [
+        {"id": "SAAS-01", "kind": "ask", "category": "Product", "question": "Selected SaaS product / vendor and contract status", "answer": "text", "help": "Signed, in negotiation, or not selected."},
+        {"id": "SAAS-02", "kind": "ask", "category": "Product", "question": "Number of licences / users and licence model", "answer": "text", "help": ""},
+        {"id": "SAAS-03", "kind": "ask", "category": "Data", "question": "Which data must be migrated (scope, volume, history) and in which format?", "answer": "text", "help": "Define what stays in the archive."},
+        {"id": "SAAS-04", "kind": "ask", "category": "Compliance", "question": "Data residency and regulatory requirements", "answer": "text", "help": "Check vendor hosting region and certifications."},
+        {"id": "SAAS-05", "kind": "ask", "category": "Identity", "question": "Single sign-on and user provisioning", "answer": "list:Entra ID SSO (SAML/OIDC) + SCIM|SSO only|Local accounts", "help": "SSO + SCIM recommended."},
+        {"id": "SAAS-06", "kind": "ask", "category": "Integration", "question": "Interfaces to rebuild (systems, direction, frequency, owner)", "answer": "text", "help": ""},
+        {"id": "SAAS-07", "kind": "ask", "category": "Service", "question": "Vendor SLA and support model", "answer": "text", "help": "Feeds rows 7, 8 and 14 of the operations manual."},
+        {"id": "SAAS-08", "kind": "ask", "category": "Cutover", "question": "Coexistence and cutover approach", "answer": "list:Big bang|Phased by user group|Parallel run", "help": ""},
+        {"id": "SAAS-09", "kind": "ask", "category": "Decommission", "question": "Archive and retention of legacy data; when can the old servers be decommissioned?", "answer": "text", "help": "Required before Decommission cards can be worked."},
+        {"id": "SAAS-10", "kind": "ask", "category": "Exit", "question": "Exit strategy / data export option from the vendor", "answer": "text", "help": ""}
+      ]
+    },
+    "Application Runtime Modernization": {
+      "prefix": "ART", "unit": "application", "r_factor": "Replatform or Rebuild",
+      "audience": "Developer or vendor; Technical Workload Owner",
+      "questions": [
+        {"id": "ART-01", "kind": "approve", "category": "Source", "question": "Technology stack and versions (language, framework, web server)", "answer": "text", "help": "Pre-filled from the software fingerprint."},
+        {"id": "ART-02", "kind": "ask", "category": "Ownership", "question": "Who owns and can change the source code?", "answer": "list:In-house team|Vendor|No access to source", "help": "No access to source usually means Rehost now."},
+        {"id": "ART-03", "kind": "ask", "category": "Target", "question": "Target runtime", "answer": "list:App Service|Container Apps|AKS|Functions|Other", "help": "Proposed by the System Engineer."},
+        {"id": "ART-04", "kind": "ask", "category": "Design", "question": "Does the application keep session state or write to the local disk?", "answer": "yesno", "help": "Must be externalised before replatforming."},
+        {"id": "ART-05", "kind": "ask", "category": "Configuration", "question": "Where are configuration and secrets kept today?", "answer": "text", "help": "Target: Key Vault + app settings."},
+        {"id": "ART-06", "kind": "ask", "category": "Delivery", "question": "Source repository and CI/CD pipeline", "answer": "text", "help": ""},
+        {"id": "ART-07", "kind": "approve", "category": "Dependencies", "question": "Dependencies (databases, queues, file shares, external APIs)", "answer": "text", "help": "Pre-filled from dependency data."},
+        {"id": "ART-08", "kind": "ask", "category": "Identity", "question": "User and service authentication model", "answer": "list:Entra ID|Windows authentication|Forms / local|Other", "help": ""},
+        {"id": "ART-09", "kind": "ask", "category": "Performance", "question": "Scaling and performance targets", "answer": "text", "help": "Peak users, response time."},
+        {"id": "ART-10", "kind": "ask", "category": "Operations", "question": "Monitoring and logging expectations", "answer": "text", "help": "Target: Application Insights / Log Analytics."},
+        {"id": "ART-11", "kind": "ask", "category": "Testing", "question": "Test strategy (automated / manual) and test owner", "answer": "text", "help": ""},
+        {"id": "ART-12", "kind": "ask", "category": "Release", "question": "Release and rollback approach", "answer": "list:Deployment slots|Blue/green|Previous image|Manual", "help": ""}
+      ]
+    },
+    "VDI Modernization": {
+      "prefix": "VDI", "unit": "application", "r_factor": "Replatform",
+      "audience": "Workplace / EUC team (not the Workload Owner)",
+      "questions": [
+        {"id": "VDI-01", "kind": "approve", "category": "Source", "question": "Current platform, number of users and peak concurrency", "answer": "text", "help": "Pre-filled from login data (90 days)."},
+        {"id": "VDI-02", "kind": "ask", "category": "Target", "question": "Target service", "answer": "list:Azure Virtual Desktop pooled|Azure Virtual Desktop personal|Windows 365|Other", "help": ""},
+        {"id": "VDI-03", "kind": "ask", "category": "Delivery", "question": "Full desktops, published applications, or both?", "answer": "list:Desktops|Published apps|Both", "help": ""},
+        {"id": "VDI-04", "kind": "ask", "category": "Image", "question": "Image and application packaging approach", "answer": "text", "help": "e.g. golden image + MSIX app attach."},
+        {"id": "VDI-05", "kind": "ask", "category": "Profiles", "question": "User profile solution and storage", "answer": "text", "help": "e.g. FSLogix on Azure Files."},
+        {"id": "VDI-06", "kind": "ask", "category": "Peripherals", "question": "Printing, USB, scanners or other redirection requirements", "answer": "text", "help": ""},
+        {"id": "VDI-07", "kind": "ask", "category": "Access", "question": "Client devices and access paths (internal, remote, MFA, conditional access)", "answer": "text", "help": ""},
+        {"id": "VDI-08", "kind": "ask", "category": "Network", "question": "Latency-sensitive back-end applications used from the desktop", "answer": "text", "help": "Back-ends should move close to the host pool."},
+        {"id": "VDI-09", "kind": "ask", "category": "Rollout", "question": "Pilot group and rollout waves", "answer": "text", "help": "Each user wave is its own cutover group."},
+        {"id": "VDI-10", "kind": "ask", "category": "Licensing", "question": "Licensing in place (Windows E3/E5, M365, RDS CAL)", "answer": "text", "help": ""}
+      ]
+    }
+  }
+}

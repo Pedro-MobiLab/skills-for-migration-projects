@@ -1,0 +1,12 @@
+# Real client profiles must not be committed
+profiles/*.engagement-profile.yaml
+!profiles/_template.engagement-profile.yaml
+
+# Generated outputs
+*.pdf
+out/
+output/
+__pycache__/
+*.pyc
+.DS_Store
+~$*

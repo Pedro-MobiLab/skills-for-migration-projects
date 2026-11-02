@@ -1,0 +1,15 @@
+[
+  {
+    "workload": "Order Management",
+    "scenario": "Database Modernization",
+    "units": ["SQLPRD01\\ORDERS"],
+    "interviewee": "Alex Miller - alex.miller@contoso.example",
+    "prefill": {"SQLPRD01\\ORDERS": {"DBM-01": "SQL Server 2014 Enterprise", "DBM-02": "ORDERS - 120 GB, about +2 GB per month"}}
+  },
+  {
+    "workload": "Engineering Projects",
+    "scenario": "Fileserver Modernization",
+    "units": ["\\\\fs01\\projects", "\\\\fs01\\cad"],
+    "interviewee": "Maria Garcia - maria.garcia@contoso.example"
+  }
+]

@@ -10,12 +10,39 @@ project.
 
 ## Skills
 
-| Skill | Lifecycle step | Produces |
-|---|---|---|
-| [`migration-questionnaire-generator`](skills/migration-questionnaire-generator/SKILL.md) | 04 Interview 1 · 10 Scenario Review | Pre-filled Interview 1 workbook per application (dropdowns preserved) + Interview 2 workbook per modernization scenario |
-| [`migration-confluence-pages`](skills/migration-confluence-pages/SKILL.md) | 11 Readiness → 14 Pre-Migration | Per-unit Confluence checklist pages (server, DB, share, OS, SaaS, runtime, VDI) + Jira cards |
-| [`wave-planning-slide`](skills/wave-planning-slide/SKILL.md) | 12 Wave Planning | MobiLab-branded cutover-schedule slide (+ cover) with scenario chips and cutover-group checks |
-| [`operations-manual-mapping`](skills/operations-manual-mapping/SKILL.md) | 17 Signed Off → 19 Steady State | 24-field Operations Manual workbook + Handover Summary, with per-scenario row variants |
+| Skill | Status | Lifecycle step | Produces |
+|---|---|---|---|
+| [`migration-questionnaire-generator`](skills/migration-questionnaire-generator/SKILL.md) | **Fallback / pre-Axium** | 04 Interview 1 · 10 Scenario Review | Pre-filled Interview 1 workbook per application (dropdowns preserved) + Interview 2 workbook per modernization scenario |
+| [`migration-confluence-pages`](skills/migration-confluence-pages/SKILL.md) | **Fallback / pre-Axium** | 11 Readiness → 14 Pre-Migration | Per-unit Confluence checklist pages (server, DB, share, OS, SaaS, runtime, VDI) + Jira cards |
+| [`wave-planning-slide`](skills/wave-planning-slide/SKILL.md) | Active | 12 Wave Planning | MobiLab-branded cutover-schedule slide (+ cover) with scenario chips and cutover-group checks |
+| [`operations-manual-mapping`](skills/operations-manual-mapping/SKILL.md) | Active | 17 Signed Off → 19 Steady State | 24-field Operations Manual workbook + Handover Summary, with per-scenario row variants |
+
+## Axium and these skills
+
+The Application Cockpit (Axium agent) is meant to become the single record for each
+Application: Interview 1 runs in it (approve / ask / mark), the Goal and scenario rows
+are decided there, and Jira is mirrored from it. Once it is live for an engagement:
+
+- **`migration-questionnaire-generator` is not needed** for Interview 1 — generating an
+  Excel would create a second source of truth. Keep it only for engagements without
+  Axium, for clients that require an offline workbook, or until Axium writes data.
+- **`migration-confluence-pages` is needed only for what Axium does not produce.** The
+  method still places gate checklists, evidence and handover packs in Confluence. If
+  Axium creates those pages and Jira cards itself, retire this skill; otherwise use it
+  with the Cockpit (not the questionnaire) as its source.
+- **`wave-planning-slide` and `operations-manual-mapping` stay** — they are
+  client-facing outputs; with Axium they simply read their facts from the Cockpit.
+
+The reusable *content* in the two fallback skills — the Interview 1 catalogue mapping,
+the draft Interview 2 question sets, the modernization page skeletons and the
+operations-manual scenario variants — is indexed in
+[`axium-inputs/`](axium-inputs/README.md) as input for the Axium question catalogue
+and templates (method assignments D2 / D3).
+
+Open questions to settle with the Axium owners before retiring anything: when Axium
+moves from prototype to live use and for which clients; whether it creates Confluence
+pages and Jira cards or only moves status; whether it exports the questionnaire
+(Excel / PDF); who owns the Interview 2 catalogue.
 
 ### What changed versus the original client-specific skills (1:1)
 
@@ -29,6 +56,7 @@ project.
 ## Repository layout
 
 ```
+axium-inputs/README.md                     # index of reusable content for the Axium catalogue/templates
 shared/method-primer.md                    # condensed M&M method (source of truth: the live method page)
 profiles/_template.engagement-profile.yaml # copy per client; never commit real client profiles here
 skills/<skill>/SKILL.md                    # entry point Claude reads

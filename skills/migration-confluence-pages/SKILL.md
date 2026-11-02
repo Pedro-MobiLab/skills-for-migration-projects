@@ -1,6 +1,8 @@
 ---
 name: migration-confluence-pages
 description: >-
+  FALLBACK for engagements where the Application Cockpit (Axium) does not create the
+  Confluence pages and Jira cards itself.
   Create the per-unit migration / modernization checklist pages in Confluence
   (server, database, file share, OS, SaaS, application-runtime or VDI) and the
   matching Jira cards (unit, firewall, database, scenario) for any client engagement,
@@ -13,6 +15,13 @@ description: >-
 ---
 
 # Migration / modernization Confluence pages + Jira cards (customer-agnostic)
+
+> **Status: fallback / pre-Axium.** First check whether the engagement's Application
+> Cockpit (Axium) already creates these pages and cards. If it does, don't duplicate
+> them — tell the user. If Axium is live but does not create them, use the Cockpit
+> record (Goal, scenario rows, cutover group, owners, gate declarations) as the source
+> instead of the questionnaire, and create only what the method keeps in Confluence:
+> the execution checklist, Gate 1 / Gate 2 evidence and the handover material.
 
 Creates, for one Application (Workload) and its units of execution, the Confluence
 checklist child pages and the Jira cards that track them, filled from the interview
@@ -89,7 +98,7 @@ page from it only after the user agrees.
   placeholders unless the source gives them.
 - Leave Support Group / Migration Specialist empty unless given.
 
-## 4. Field mapping from the questionnaire
+## 4. Field mapping from the questionnaire (or the Cockpit)
 Default mapping for the MobiLab universal questionnaire is in
 `references/field-mapping.md` (anchor rows by **question text**, not row number;
 server columns G–K, comment column M). Always read the comment column: the latest

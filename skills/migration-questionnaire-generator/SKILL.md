@@ -1,6 +1,8 @@
 ---
 name: migration-questionnaire-generator
 description: >-
+  FALLBACK for engagements where the Application Cockpit (Axium) is not used for
+  interviews, or when an offline Excel questionnaire is explicitly requested.
   Generate pre-filled migration interview questionnaires for any client: the
   Interview 1 workbook (one .xlsx per Application/Workload, one column per server,
   filled from the client's migration inventory with the MobiLab universal template)
@@ -16,6 +18,14 @@ description: >-
 ---
 
 # Migration interview questionnaire generator (customer-agnostic)
+
+> **Status: fallback / pre-Axium.** If the engagement runs interviews in the
+> Application Cockpit (Axium), do **not** generate an Excel questionnaire — it would
+> create a second source of truth. Tell the user that and stop, unless they confirm
+> they need the offline workbook (no Axium on this engagement, client requires a file,
+> or Axium not yet writing data). The question content (Interview 1 catalogue mapping
+> in `references/cell-map.json`, Interview 2 sets in
+> `references/interview2-question-sets.json`) remains valid input for Axium.
 
 Lifecycle position: **04 Interview 1 Scheduled** (prepare Interview 1) and **10 Scenario
 Review** (prepare Interview 2, only when the Goal is *Modernize*). See
